@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sensor Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sensor Readings</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Sensor Type</th>
+          <th>Value</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% readings.forEach(reading => { %>
+          <tr>
+            <td><%= reading.sensorType %></td>
+            <td><%= reading.value %></td>
+            <td><%= reading.timestamp.toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <div class="response-box">
+    <%= output %>
+  </div>
+</body>
+</html>

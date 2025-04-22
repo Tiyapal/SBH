@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sensor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            color: #333;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-on {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-off {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🌿 Sensor Dashboard</h1>
+
+    <div class="card">
+        <h2>🌫️ MQ135 Air Quality</h2>
+        <p><strong>Value:</strong> <span id="mq135-value">Waiting...</span></p>
+    </div>
+
+    <div class="card">
+        <h2>🌱 Soil Moisture</h2>
+        <p><strong>Value:</strong> <span id="moisture-value">Waiting...</span></p>
+    </div>
+
+    <div class="card">
+        <h2>💧 Pump Status</h2>
+        <p><strong>Status:</strong> <span id="pump-status" class="status-off">OFF</span></p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
