@@ -22,16 +22,16 @@ socket.on('sensor-data', function (data) {
   } else if (data.sensorType === "home/moisture") {
     document.getElementById('moisture-value').textContent = data.value;
     const span = document.createElement("span")
-    if (data.value >= 2500) {
+    if (data.value < 1500) {
       span.textContent = "(Soil is moist😊)"
       span.className = "status text"
       document.getElementById('moisture-value').appendChild(span)
-    } else if (data.value <= 1500) {
+    } else if (data.value >= 2000) {
       // const span = document.createElement("span")
       span.textContent = "(Soil is dry☹️)"
       span.className = "status text"
       document.getElementById('moisture-value').appendChild(span)
-    } else {
+    } else if (data.value > 1500 && data.value < 2000) {
       document.getElementById('moisture-value').removeChild(span)
     }
   }
