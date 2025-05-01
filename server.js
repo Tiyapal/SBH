@@ -45,11 +45,10 @@ client.on("connect", () => {
 });
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/sensorReadings');
+  await mongoose.connect('mongodb://localhost:27017/sensorReadings')
   console.log('Connected to database')
 }
 main().catch(err => console.log(err));
-
 
 app.get('/', async (req, res) => {
 
@@ -105,5 +104,5 @@ io.on('connection', (socket) => {
   })
 })
 server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Server listening on port http://localhost:${port}`);
 });
