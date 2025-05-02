@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     const readings = await data.find().sort({ timestamp: -1 }).limit(50); // latest 50
     res.render('dashboard', { readings })
   } catch (err) {
-    console.log("Error occured: " ,err)
+    console.log("Error occured: ", err)
   }
 })
 // define the about route
@@ -28,13 +28,21 @@ router.get('/about', (req, res) => {
   res.send('About birds')
 })
 router.get('/ai', async (req, res) => {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
-    contents: `${promptout}`,
-  });
-  let result = response.text;
-  const readings = await data.find().sort({ timestamp: -1 }).limit(50); // latest 50
-  res.render('ai-response', { readings, output: result });
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: `${promptout}`,
+    });
+    let result = response.text;
+    res.json({
+      suggestion: result,
+    })
+  } catch (error) {
+    console.error("Error generating AI content", error)
+    res.status(500).json({ error: "Failed suggestion" })
+
+  }
+
 })
 
 router.get('/text', (req, res) => {

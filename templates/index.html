@@ -5,52 +5,131 @@
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f9fc;
-            color: #333;
-            padding: 20px;
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #2e7d32;
         }
 
-        .card {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        /* Container holding the cards */
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            /* allows wrapping on smaller screens */
+            gap: 20px;
+            /* spacing between cards */
+            justify-content: center;
+            /* center them horizontally */
             padding: 20px;
-            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Individual card styling */
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            width: 250px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            text-align: center;
+        }
+
+        /* Pump status coloring */
+        .status-off {
+            color: red;
         }
 
         .status-on {
             color: green;
-            font-weight: bold;
         }
 
-        .status-off {
-            color: red;
-            font-weight: bold;
+
+        .charts-container {
+            display: flex;
+            /* Use Flexbox to arrange items side by side */
+            justify-content: space-between;
+            /* Spread the items evenly */
+            gap: 20px;
+            /* Add some space between the cards */
+            padding: 20px;
+        }
+
+        /* Individual card container */
+        .chart-card {
+            flex: 1;
+            /* Each card takes up equal width */
+            min-width: 0;
+            /* Prevent overflow */
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.1)),
+                linear-gradient(135deg, #f9fbe7, #e8f5e9);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .chart-card h2 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #00796b;
+        }
+
+        /* Ensure the canvas fits the container */
+        .chart-card canvas {
+            width: 100% !important;
+            height: 100% !important;
+            max-height: 300px;
+            /* Limit the height of the canvas */
         }
     </style>
 </head>
 
 <body>
     <h1>🌿 Sensor Dashboard</h1>
+    <div class="dashboard">
+        <div class="card">
+            <h2>🌫️ MQ135 Air Quality</h2>
+            <p><strong>Value:</strong> <span id="mq135-value">Waiting...</span></p>
+        </div>
 
-    <div class="card">
-        <h2>🌫️ MQ135 Air Quality</h2>
-        <p><strong>Value:</strong> <span id="mq135-value">Waiting...</span></p>
+        <div class="card">
+            <h2>🌱 Soil Moisture</h2>
+            <p><strong>Value:</strong> <span id="moisture-value">Waiting...</span></p>
+        </div>
+
+        <div class="card">
+            <h2>💧 Pump Status</h2>
+            <p><strong>Status:</strong> <span id="pump-status" class="status-off">OFF</span></p>
+        </div>
+        <div class="charts-container">
+            <div class="chart-card">
+                <h2>Soil Moisture Trend</h2>
+                <canvas id="moistureChart" width="800" height="300"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Air Quality Trend</h2>
+                <canvas id="airChart" width="800" height="300"></canvas>
+            </div>
+        </div>
+        <div style="text-align: center; margin: 20px;">
+            <button id="suggestionBtn">💡 Get AI Suggestion</button>
+            <div id="suggestionBox" class="card suggestion-card" style="display: none;">
+                <!-- AI suggestion will be shown here -->
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-        <h2>🌱 Soil Moisture</h2>
-        <p><strong>Value:</strong> <span id="moisture-value">Waiting...</span></p>
-    </div>
-
-    <div class="card">
-        <h2>💧 Pump Status</h2>
-        <p><strong>Status:</strong> <span id="pump-status" class="status-off">OFF</span></p>
-    </div>
-    <canvas id="moistureChart" width="800" height="300"></canvas>
-    <canvas id="airChart" width="800" height="300"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>

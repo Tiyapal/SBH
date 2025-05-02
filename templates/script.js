@@ -50,8 +50,8 @@ socket.on('pump-state', (data) => {
   }
 })
 
- // Store latest values
- const moistureData = {
+// Store latest values
+const moistureData = {
   labels: [],
   datasets: [{
     label: 'Moisture',
@@ -81,7 +81,13 @@ const moistureChart = new Chart(
     type: 'line',
     data: moistureData,
     options: {
-      animation: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuad',
+        delay: 500,
+        onComplete: () => console.log("Animation Complete")
+      },
+      maintainAspectRatio : false ,
       responsive: true,
       scales: {
         x: { title: { display: true, text: 'Time' } },
@@ -97,11 +103,17 @@ const airChart = new Chart(
     type: 'line',
     data: airData,
     options: {
-      animation: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuad',
+        delay: 500,
+        onComplete: () => console.log("Animation Complete")
+      },
+      maintainAspectRatio: false,
       responsive: true,
       scales: {
         x: { title: { display: true, text: 'Time' } },
-        y: { title: { display: true, text: 'Value' }, beginAtZero: true , max : 300 }
+        y: { title: { display: true, text: 'Value' }, beginAtZero: true }
       }
     }
   }
@@ -115,7 +127,7 @@ socket.on('sensor-data', (data) => {
     moistureData.labels.push(time);
     moistureData.datasets[0].data.push(data.value);
 
-    if (moistureData.labels.length > 20) {
+    if (moistureData.labels.length > 5) {
       moistureData.labels.shift();
       moistureData.datasets[0].data.shift();
     }
@@ -127,11 +139,27 @@ socket.on('sensor-data', (data) => {
     airData.labels.push(time);
     airData.datasets[0].data.push(data.value);
 
-    if (airData.labels.length > 20) {
+    if (airData.labels.length > 5) {
       airData.labels.shift();
       airData.datasets[0].data.shift();
     }
 
     airChart.update();
+  }
+});
+
+document.getElementById("suggestionBtn").addEventListener("click", async function () {
+  const box = document.getElementById("suggestionBox");
+  box.style.display = "block";
+  box.textContent = "Fetching suggestion...";
+
+  try {
+      const response = await fetch('/api/ai');
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const data = await response.json();
+      box.textContent = data.suggestion || "No suggestion received.";
+  } catch (error) {
+      box.textContent = "Error fetching suggestion: " + error.message;
   }
 });
