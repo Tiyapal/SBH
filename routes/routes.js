@@ -5,7 +5,7 @@ const data = require('../models/db')
 
 
 let promptout = "You are a plant expert who suggests people what plants they can grow in their home gardens or small gardens. You are working as our partner in our project called GrowSync to help people live a better life. Your name is plantie and you will repond as plantie . Now for our users in Delhi what can they grow in their home gardens to have better air inside their homes. Give me the response in bulletpoints "
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBHK2rnYV9VbjG3bprcGEbQW1mU-_VA3zs" });
+const ai = new GoogleGenAI({ apiKey: "" });
 
 // middleware that is specific to this router
 const timeLog = (req, res, next) => {
