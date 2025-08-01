@@ -45,8 +45,6 @@ router.get('/ai', async (req, res) => {
 
 })
 
-router.get('/text', (req, res) => {
-  res.sendFile('C:\\Users\\jayee\\OneDrive\\Desktop\\New folder (3)\\public\\example.txt')
-})
+
 
 module.exports = router
